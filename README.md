@@ -60,7 +60,7 @@ _Add dashboard screenshots here once final layouts are exported._
 | Item | Detail |
 |---|---|
 | Source | Queensland Police Service — LGA Reported Offenders (Monthly) |
-| Period | 2001-2025 (filtered to <= 2025 in `constants.py`) |
+| Period | 2010-2025 (filtered to <= 2025 in `constants.py`) |
 | Spatial coverage | 77 Queensland LGAs |
 | Unit of analysis | LGA x offence group x year x month x age group x sex |
 | Key offence groups | Offences Against the Person, Property, Drug, Traffic, Domestic Violence Order Breaches, Good Order |
