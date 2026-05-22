@@ -12,7 +12,6 @@ from charts import (
     build_whatif,
 )
 from components import (
-    render_active_filter_banner,
     render_footer,
     render_hero,
     render_kpi_row,
@@ -32,6 +31,31 @@ from data import (
     load_data,
 )
 from utils import load_css
+
+try:
+    from components import render_active_filter_banner
+except ImportError:
+    def render_active_filter_banner():
+        offence_filter = st.session_state.get("chart_offence_filter")
+        lga_filter = st.session_state.get("chart_lga_filter")
+
+        active_parts = []
+        if offence_filter:
+            active_parts.append(f"Offence: **{offence_filter}**")
+        if lga_filter:
+            active_parts.append(f"LGA drill-down: **{lga_filter}**")
+
+        if not active_parts:
+            return
+
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            st.info("🎯 Chart filter active - " + " | ".join(active_parts))
+        with col2:
+            if st.button("✕ Reset", use_container_width=True, type="secondary"):
+                st.session_state.chart_offence_filter = None
+                st.session_state.chart_lga_filter = None
+                st.rerun()
 
 
 def configure_page():
