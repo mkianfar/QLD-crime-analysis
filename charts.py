@@ -6,6 +6,11 @@ from constants import INDIGO_SCALE, OFFENCE_COLOURS
 from utils import fmt
 
 
+def enable_point_selection(fig):
+    fig.update_layout(clickmode="event+select")
+    return fig
+
+
 def base_layout(height=380, xtitle="", ytitle=""):
     return dict(
         height=height,
@@ -51,7 +56,7 @@ def build_map(scope, map_mode, top_n):
         color="offence_count",
         color_continuous_scale="Reds",
         hover_name="lga_name_clean",
-        custom_data=["offence_count"],
+        custom_data=["lga_name_clean", "offence_count"],
         zoom=4.6,
         center={"lat": -22, "lon": 144.5},
         mapbox_style="carto-positron",
@@ -59,7 +64,7 @@ def build_map(scope, map_mode, top_n):
     )
     fig.update_traces(
         marker=dict(opacity=0.78),
-        hovertemplate="<b>%{hovertext}</b><br>Offences: <b>%{customdata[0]:,}</b><extra></extra>",
+        hovertemplate="<b>%{customdata[0]}</b><br>Offences: <b>%{customdata[1]:,}</b><extra></extra>",
     )
     fig.update_layout(
         height=500,
@@ -70,7 +75,7 @@ def build_map(scope, map_mode, top_n):
         coloraxis_colorbar=dict(title="Count", tickfont=dict(color="#1e293b")),
         margin=dict(t=50, b=10, l=10, r=10),
     )
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_donut(top_cat_df, total):
@@ -81,6 +86,7 @@ def build_donut(top_cat_df, total):
         go.Pie(
             labels=donut_df["offence_group"],
             values=donut_df["offence_count"],
+            customdata=donut_df[["offence_group"]],
             hole=0.60,
             marker_colors=donut_df["colour"],
             hovertemplate="<b>%{label}</b><br>%{value:,} offences (%{percent})<extra></extra>",
@@ -111,7 +117,7 @@ def build_donut(top_cat_df, total):
         ],
         margin=dict(t=50, b=10, l=10, r=150),
     )
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_trend(scope):
@@ -121,6 +127,7 @@ def build_trend(scope):
         x="year",
         y="offence_count",
         color="offence_group",
+        custom_data=["year", "offence_group"],
         color_discrete_map=OFFENCE_COLOURS,
         title="Annual offence trend by category",
     )
@@ -128,7 +135,7 @@ def build_trend(scope):
     fig.update_layout(**base_layout(390, "Year", "Offence Count"))
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(showgrid=True, gridcolor="#1e293b")
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_top_lgas(top_lga_df, top_n):
@@ -140,6 +147,7 @@ def build_top_lgas(top_lga_df, top_n):
         orientation="h",
         title=f"Top {top_n} LGAs by total offence count",
         color="offence_count",
+        custom_data=["lga_name_clean"],
         color_continuous_scale=INDIGO_SCALE,
     )
     fig.update_traces(hovertemplate="<b>%{y}</b><br>Offences: <b>%{x:,}</b><extra></extra>")
@@ -148,7 +156,7 @@ def build_top_lgas(top_lga_df, top_n):
     fig.update_layout(**layout)
     fig.update_xaxes(showgrid=True, gridcolor="#1e293b")
     fig.update_yaxes(showgrid=False)
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_age_chart(scope):
@@ -158,6 +166,7 @@ def build_age_chart(scope):
         x="year",
         y="offence_count",
         color="age_group",
+        custom_data=["year", "age_group"],
         color_discrete_map={"Adult": "#818cf8", "Juvenile": "#f472b6"},
         markers=True,
         title="Adult vs Juvenile offenders over time",
@@ -170,7 +179,7 @@ def build_age_chart(scope):
     fig.update_layout(**base_layout(340, "Year", "Offence Count"))
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(showgrid=True, gridcolor="#1e293b")
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_sex_chart(scope):
@@ -182,6 +191,7 @@ def build_sex_chart(scope):
         color="sex",
         orientation="h",
         barmode="group",
+        custom_data=["offence_group", "sex"],
         color_discrete_map={"Female": "#f472b6", "Male": "#60a5fa", "Not Stated": "#94a3b8"},
         title="Offences by sex and category",
     )
@@ -189,7 +199,7 @@ def build_sex_chart(scope):
     fig.update_layout(**base_layout(340, "Offence Count", ""))
     fig.update_xaxes(showgrid=True, gridcolor="#1e293b")
     fig.update_yaxes(showgrid=False)
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_lga_trend(lga_df, sel_lga):
@@ -199,6 +209,7 @@ def build_lga_trend(lga_df, sel_lga):
         x="year",
         y="offence_count",
         color="offence_group",
+        custom_data=["year", "offence_group"],
         color_discrete_map=OFFENCE_COLOURS,
         markers=True,
         title=f"Offence trend — {sel_lga}",
@@ -211,7 +222,7 @@ def build_lga_trend(lga_df, sel_lga):
     fig.update_layout(**base_layout(380, "Year", "Count"))
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(showgrid=True, gridcolor="#1e293b")
-    return fig
+    return enable_point_selection(fig)
 
 
 def build_detail_chart(detail_mix, sel_lga):

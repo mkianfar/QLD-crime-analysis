@@ -69,14 +69,18 @@ def render_active_filter_banner():
     Shows a dismissable banner when a chart click filter is active.
     Displays what is filtered and a reset button to clear it.
     """
-    offence_filter = st.session_state.get("chart_offence_filter")
-    lga_filter = st.session_state.get("chart_lga_filter")
-
-    active_parts = []
-    if offence_filter:
-        active_parts.append(f"Offence: **{offence_filter}**")
-    if lga_filter:
-        active_parts.append(f"LGA drill-down: **{lga_filter}**")
+    filter_labels = {
+        "chart_lga_filter": "LGA",
+        "chart_offence_filter": "Offence",
+        "chart_year_filter": "Year",
+        "chart_age_filter": "Age",
+        "chart_sex_filter": "Sex",
+    }
+    active_parts = [
+        f"{label}: **{st.session_state.get(key)}**"
+        for key, label in filter_labels.items()
+        if st.session_state.get(key)
+    ]
 
     if not active_parts:
         return
@@ -86,8 +90,9 @@ def render_active_filter_banner():
         st.info("🎯 Chart filter active - " + " | ".join(active_parts))
     with col2:
         if st.button("✕ Reset", use_container_width=True, type="secondary"):
-            st.session_state.chart_offence_filter = None
-            st.session_state.chart_lga_filter = None
+            for key in filter_labels:
+                st.session_state[key] = None
+            st.session_state.chart_filter_version += 1
             st.rerun()
 
 

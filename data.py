@@ -82,6 +82,7 @@ def filter_summary(summary_full, filters):
     return summary_full[
         (summary_full["year"] >= year_range[0])
         & (summary_full["year"] <= year_range[1])
+        & (summary_full["lga_name_clean"].isin(filters["lgas"]))
         & (summary_full["offence_group"].isin(filters["offences"]))
         & (summary_full["age_group"].isin(filters["age_groups"]))
         & (summary_full["sex"].isin(filters["sexes"]))
