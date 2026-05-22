@@ -6,6 +6,9 @@ from constants import INDIGO_SCALE, OFFENCE_COLOURS
 from utils import fmt
 
 
+MAP_HEIGHT = 660
+
+
 def enable_point_selection(fig):
     fig.update_layout(clickmode="event+select")
     return fig
@@ -39,7 +42,7 @@ def build_map(scope, map_mode, top_n):
     )
 
     if map_df.empty:
-        return empty_chart("Geographic concentration of offence burden", 500)
+        return empty_chart("Geographic concentration of offence burden", MAP_HEIGHT)
 
     if map_mode == "Top N LGAs":
         map_df = map_df.sort_values("offence_count", ascending=False).head(top_n)
@@ -67,7 +70,7 @@ def build_map(scope, map_mode, top_n):
         hovertemplate="<b>%{customdata[0]}</b><br>Offences: <b>%{customdata[1]:,}</b><extra></extra>",
     )
     fig.update_layout(
-        height=500,
+        height=MAP_HEIGHT,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(color="#1e293b", size=12, family="Inter"),
