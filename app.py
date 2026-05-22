@@ -52,15 +52,18 @@ except ImportError:
         if not active_parts:
             return
 
-        col1, col2 = st.columns([5, 1])
+        def clear_chart_filters():
+            for key in filter_labels:
+                st.session_state[key] = None
+            st.session_state.chart_filter_version += 1
+            st.rerun()
+
+        col1, col2 = st.columns([1, 6])
         with col1:
-            st.info("🎯 Chart filter active - " + " | ".join(active_parts))
+            if st.button("Clear filters", key="clear_chart_filters_main", use_container_width=True, type="primary"):
+                clear_chart_filters()
         with col2:
-            if st.button("✕ Reset", use_container_width=True, type="secondary"):
-                for key in filter_labels:
-                    st.session_state[key] = None
-                st.session_state.chart_filter_version += 1
-                st.rerun()
+            st.info("🎯 Chart filter active - " + " | ".join(active_parts))
 
 
 CHART_FILTER_DEFAULTS = {

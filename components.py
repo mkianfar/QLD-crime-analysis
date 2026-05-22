@@ -3,6 +3,30 @@ import streamlit as st
 from utils import fmt
 
 
+CHART_FILTER_LABELS = {
+    "chart_lga_filter": "LGA",
+    "chart_offence_filter": "Offence",
+    "chart_year_filter": "Year",
+    "chart_age_filter": "Age",
+    "chart_sex_filter": "Sex",
+}
+
+
+def active_chart_filter_parts():
+    return [
+        f"{label}: **{st.session_state.get(key)}**"
+        for key, label in CHART_FILTER_LABELS.items()
+        if st.session_state.get(key)
+    ]
+
+
+def clear_chart_filters():
+    for key in CHART_FILTER_LABELS:
+        st.session_state[key] = None
+    st.session_state.chart_filter_version += 1
+    st.rerun()
+
+
 def sidebar_label(text, spaced=False):
     class_name = "sidebar-section-label spaced" if spaced else "sidebar-section-label"
     st.sidebar.markdown(f'<p class="{class_name}">{text}</p>', unsafe_allow_html=True)
@@ -10,6 +34,17 @@ def sidebar_label(text, spaced=False):
 
 def render_sidebar(options):
     st.sidebar.markdown("## 🎛️ Controls")
+
+    if active_chart_filter_parts():
+        st.sidebar.info("🎯 Chart filters active")
+        if st.sidebar.button(
+            "Clear chart filters",
+            key="clear_chart_filters_sidebar",
+            use_container_width=True,
+            type="primary",
+        ):
+            clear_chart_filters()
+        st.sidebar.markdown("---")
 
     sidebar_label("TIME RANGE")
     year_range = st.sidebar.slider(
@@ -69,31 +104,17 @@ def render_active_filter_banner():
     Shows a dismissable banner when a chart click filter is active.
     Displays what is filtered and a reset button to clear it.
     """
-    filter_labels = {
-        "chart_lga_filter": "LGA",
-        "chart_offence_filter": "Offence",
-        "chart_year_filter": "Year",
-        "chart_age_filter": "Age",
-        "chart_sex_filter": "Sex",
-    }
-    active_parts = [
-        f"{label}: **{st.session_state.get(key)}**"
-        for key, label in filter_labels.items()
-        if st.session_state.get(key)
-    ]
+    active_parts = active_chart_filter_parts()
 
     if not active_parts:
         return
 
-    col1, col2 = st.columns([5, 1])
+    col1, col2 = st.columns([1, 6])
     with col1:
-        st.info("🎯 Chart filter active - " + " | ".join(active_parts))
+        if st.button("Clear filters", key="clear_chart_filters_main", use_container_width=True, type="primary"):
+            clear_chart_filters()
     with col2:
-        if st.button("✕ Reset", use_container_width=True, type="secondary"):
-            for key in filter_labels:
-                st.session_state[key] = None
-            st.session_state.chart_filter_version += 1
-            st.rerun()
+        st.info("🎯 Chart filter active - " + " | ".join(active_parts))
 
 
 def section_header(text):
