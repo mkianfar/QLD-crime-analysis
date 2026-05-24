@@ -4,15 +4,15 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .stApp,
 .main,
 [data-testid="stAppViewContainer"] {
-  background: #f6f8fc;
-  color: #1e293b;
+  background: var(--app-bg);
+  color: var(--app-text);
 }
 .block-container {
   max-width: 1760px;
   padding: 1.4rem 2rem 2.5rem 2rem;
 }
 hr {
-  border-color: #e2e8f0;
+  border-color: var(--rule);
   margin: 22px 0;
 }
 
@@ -22,7 +22,7 @@ hr {
   border-radius: 20px;
   color: white;
   margin-bottom: 22px;
-  box-shadow: 0 18px 42px rgba(30,41,59,0.18);
+  box-shadow: var(--hero-shadow);
   border: 1px solid rgba(255,255,255,0.08);
 }
 .hero-title {
@@ -61,7 +61,7 @@ hr {
   border-radius: 16px;
   padding: 20px 20px;
   text-align: center;
-  box-shadow: 0 12px 24px rgba(15,23,42,0.16);
+  box-shadow: var(--kpi-shadow);
   min-height: 110px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -94,7 +94,7 @@ hr {
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
-  color: #4f46e5;
+  color: var(--section-accent);
   letter-spacing: 0.12em;
   margin: 28px 0 14px 0;
   padding-left: 12px;
@@ -102,10 +102,10 @@ hr {
 }
 
 div[data-testid="stPlotlyChart"] {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--chart-panel);
+  border: 1px solid var(--chart-border);
   border-radius: 14px;
-  box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+  box-shadow: var(--chart-shadow);
   padding: 12px 14px;
 }
 
@@ -115,8 +115,8 @@ div[data-testid="stPlotlyChart"] > div {
 }
 
 div[data-testid="stButton"] button[kind="secondary"] {
-  border-color: #dbe3ef;
-  color: #334155;
+  border-color: var(--button-secondary-border);
+  color: var(--button-secondary-text);
   font-weight: 600;
 }
 

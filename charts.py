@@ -3,14 +3,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from constants import INDIGO_SCALE, OFFENCE_COLOURS
-from utils import fmt
+from utils import fmt, theme_palette
 
 
 MAP_HEIGHT = 660
-CHART_TEXT = "#1e293b"
-CHART_MUTED = "#64748b"
-CHART_GRID = "#e2e8f0"
-CHART_PANEL = "#ffffff"
 
 
 def enable_point_selection(fig):
@@ -19,13 +15,14 @@ def enable_point_selection(fig):
 
 
 def base_layout(height=380, xtitle="", ytitle=""):
+    palette = theme_palette()
     return dict(
         height=height,
-        paper_bgcolor=CHART_PANEL,
-        plot_bgcolor=CHART_PANEL,
-        font=dict(color=CHART_TEXT, size=12, family="Inter"),
-        title_font=dict(color=CHART_TEXT, size=14, family="Inter"),
-        legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=CHART_MUTED, size=11)),
+        paper_bgcolor=palette["chart_panel"],
+        plot_bgcolor=palette["chart_panel"],
+        font=dict(color=palette["chart_text"], size=12, family="Inter"),
+        title_font=dict(color=palette["chart_text"], size=14, family="Inter"),
+        legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=palette["chart_muted"], size=11)),
         margin=dict(t=50, b=30, l=10, r=10),
         xaxis_title=xtitle,
         yaxis_title=ytitle,
@@ -39,6 +36,7 @@ def empty_chart(title, height=380):
 
 
 def build_map(scope, map_mode, top_n):
+    palette = theme_palette()
     map_df = (
         scope.groupby(["lga_name_clean", "lat", "lon"], as_index=False)["offence_count"]
         .sum()
@@ -75,17 +73,18 @@ def build_map(scope, map_mode, top_n):
     )
     fig.update_layout(
         height=MAP_HEIGHT,
-        paper_bgcolor=CHART_PANEL,
-        plot_bgcolor=CHART_PANEL,
-        font=dict(color=CHART_TEXT, size=12, family="Inter"),
-        title_font=dict(color=CHART_TEXT, size=14),
-        coloraxis_colorbar=dict(title="Count", tickfont=dict(color=CHART_TEXT)),
+        paper_bgcolor=palette["chart_panel"],
+        plot_bgcolor=palette["chart_panel"],
+        font=dict(color=palette["chart_text"], size=12, family="Inter"),
+        title_font=dict(color=palette["chart_text"], size=14),
+        coloraxis_colorbar=dict(title="Count", tickfont=dict(color=palette["chart_text"])),
         margin=dict(t=50, b=10, l=10, r=10),
     )
     return enable_point_selection(fig)
 
 
 def build_donut(top_cat_df, total):
+    palette = theme_palette()
     donut_df = top_cat_df.copy()
     donut_df["colour"] = donut_df["offence_group"].map(OFFENCE_COLOURS).fillna("#94a3b8")
 
@@ -103,22 +102,22 @@ def build_donut(top_cat_df, total):
     fig.update_layout(
         title="Offence mix across selected period",
         height=500,
-        paper_bgcolor=CHART_PANEL,
-        plot_bgcolor=CHART_PANEL,
-        font=dict(color=CHART_TEXT, size=12, family="Inter"),
-        title_font=dict(color=CHART_TEXT, size=14),
+        paper_bgcolor=palette["chart_panel"],
+        plot_bgcolor=palette["chart_panel"],
+        font=dict(color=palette["chart_text"], size=12, family="Inter"),
+        title_font=dict(color=palette["chart_text"], size=14),
         legend=dict(
             orientation="v",
             x=1.02,
             bgcolor="rgba(0,0,0,0)",
-            font=dict(size=11, color=CHART_MUTED),
+            font=dict(size=11, color=palette["chart_muted"]),
         ),
         annotations=[
             dict(
                 text=f"<b>{fmt(total)}</b><br>total",
                 x=0.5,
                 y=0.5,
-                font=dict(size=15, color=CHART_MUTED),
+                font=dict(size=15, color=palette["chart_muted"]),
                 showarrow=False,
             )
         ],
@@ -141,7 +140,7 @@ def build_trend(scope):
     fig.update_traces(hovertemplate="<b>%{fullData.name}</b><br>%{x}: <b>%{y:,}</b><extra></extra>")
     fig.update_layout(**base_layout(390, "Year", "Offence Count"))
     fig.update_xaxes(showgrid=False)
-    fig.update_yaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_yaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     return enable_point_selection(fig)
 
 
@@ -161,7 +160,7 @@ def build_top_lgas(top_lga_df, top_n):
     layout = base_layout(390, "Offence Count", "")
     layout["coloraxis_showscale"] = False
     fig.update_layout(**layout)
-    fig.update_xaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_xaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     fig.update_yaxes(showgrid=False)
     return enable_point_selection(fig)
 
@@ -185,7 +184,7 @@ def build_age_chart(scope):
     )
     fig.update_layout(**base_layout(340, "Year", "Offence Count"))
     fig.update_xaxes(showgrid=False)
-    fig.update_yaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_yaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     return enable_point_selection(fig)
 
 
@@ -204,7 +203,7 @@ def build_sex_chart(scope):
     )
     fig.update_traces(hovertemplate="<b>%{y}</b><br>%{fullData.name}: <b>%{x:,}</b><extra></extra>")
     fig.update_layout(**base_layout(340, "Offence Count", ""))
-    fig.update_xaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_xaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     fig.update_yaxes(showgrid=False)
     return enable_point_selection(fig)
 
@@ -228,7 +227,7 @@ def build_lga_trend(lga_df, sel_lga):
     )
     fig.update_layout(**base_layout(380, "Year", "Count"))
     fig.update_xaxes(showgrid=False)
-    fig.update_yaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_yaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     return enable_point_selection(fig)
 
 
@@ -249,7 +248,7 @@ def build_detail_chart(detail_mix, sel_lga):
     layout = base_layout(380, "Offence Count", "")
     layout["coloraxis_showscale"] = False
     fig.update_layout(**layout)
-    fig.update_xaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_xaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     fig.update_yaxes(showgrid=False)
     return fig
 
@@ -281,5 +280,5 @@ def build_whatif(total, projected_total, reduction_pct, top_lga):
     layout["showlegend"] = False
     layout["yaxis_range"] = [0, total * 1.2]
     fig.update_layout(**layout)
-    fig.update_yaxes(showgrid=True, gridcolor=CHART_GRID)
+    fig.update_yaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     return fig
