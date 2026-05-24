@@ -64,7 +64,7 @@ def build_map(scope, map_mode, top_n):
         custom_data=["lga_name_clean", "offence_count"],
         zoom=4.6,
         center={"lat": -22, "lon": 144.5},
-        mapbox_style="carto-positron",
+        mapbox_style=palette["map_style"],
         title="Geographic concentration of offence burden",
     )
     fig.update_traces(

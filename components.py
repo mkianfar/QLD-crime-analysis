@@ -33,10 +33,21 @@ def sidebar_label(text, spaced=False):
 
 
 def render_sidebar(options):
-    st.sidebar.markdown("## 🎛️ Controls")
+    st.sidebar.markdown(
+        """
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-mark">QLD</div>
+            <div>
+                <div class="sidebar-brand-title">Crime Intelligence</div>
+                <div class="sidebar-brand-subtitle">Community safety planning</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     if active_chart_filter_parts():
-        st.sidebar.info("🎯 Chart filters active")
+        st.sidebar.info("Chart filters active")
         if st.sidebar.button(
             "Clear chart filters",
             key="clear_chart_filters_sidebar",
@@ -79,7 +90,7 @@ def render_sidebar(options):
 
     st.sidebar.markdown("---")
 
-    sidebar_label("📐 WHAT-IF")
+    sidebar_label("WHAT-IF")
     reduction_pct = st.sidebar.slider(
         "Intervention reduction in top LGA",
         0,
@@ -109,12 +120,13 @@ def render_active_filter_banner():
     if not active_parts:
         return
 
+    st.markdown('<div class="active-filter-offset"></div>', unsafe_allow_html=True)
     col1, col2 = st.columns([1, 6])
     with col1:
         if st.button("Clear filters", key="clear_chart_filters_main", use_container_width=True, type="primary"):
             clear_chart_filters()
     with col2:
-        st.info("🎯 Chart filter active - " + " | ".join(active_parts))
+            st.info("Chart filter active - " + " | ".join(active_parts))
 
 
 def section_header(text):
@@ -125,16 +137,29 @@ def render_hero(kpis, filters):
     year_range = filters["year_range"]
     st.markdown(
         f"""
-        <div class="hero-box">
-            <div class="hero-title">🚨 Queensland Crime Intelligence</div>
-            <div class="hero-subtitle">
-                An interactive narrative dashboard for Queensland community safety planning.<br>
-                In {year_range[0]}-{year_range[1]}, Queensland recorded <b>{fmt(kpis['total'])}</b> offences across
-                <b>{kpis['n_lgas']}</b> LGAs. <b>{kpis['top_lga']}</b> carries the highest burden ({kpis['top_lga_pct']:.1f}% of total).
+        <div class="dashboard-header">
+            <div class="dashboard-header-copy">
+                <div class="dashboard-eyebrow">Queensland Community Safety</div>
+                <div class="dashboard-title">Crime intelligence dashboard</div>
+                <div class="dashboard-summary">
+                    <b>{fmt(kpis['total'])}</b> recorded offences across <b>{kpis['n_lgas']}</b> LGAs.
+                    <b>{kpis['top_lga']}</b> is the current highest-burden LGA at <b>{kpis['top_lga_pct']:.1f}%</b> of scope.
+                </div>
             </div>
-            <span class="hero-badge">📍 QLD Local Government Areas</span>
-            <span class="hero-badge">👥 Age & Gender Breakdown</span>
-            <span class="hero-badge">📅 {year_range[0]} – {year_range[1]}</span>
+            <div class="dashboard-header-meta">
+                <div class="meta-tile">
+                    <span>Period</span>
+                    <b>{year_range[0]}-{year_range[1]}</b>
+                </div>
+                <div class="meta-tile">
+                    <span>Priority LGA</span>
+                    <b>{kpis['top_lga']}</b>
+                </div>
+                <div class="meta-tile">
+                    <span>Top driver</span>
+                    <b>{kpis['top_cat'].replace("Offences ", "")}</b>
+                </div>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -151,26 +176,31 @@ def render_kpi_row(kpis):
         f"""
         <div class="kpi-grid">
             <div class="kpi-card">
+                <div class="kpi-accent"></div>
                 <div class="kpi-value">{fmt(kpis['total'])}</div>
                 <div class="kpi-label">Total Offences</div>
                 <div class="kpi-delta"><span class="{kpis['trend_cls']}">{kpis['trend_txt']}</span></div>
             </div>
             <div class="kpi-card">
+                <div class="kpi-accent"></div>
                 <div class="kpi-value">{kpis['n_lgas']}</div>
                 <div class="kpi-label">LGAs in Scope</div>
                 <div class="kpi-delta">&nbsp;</div>
             </div>
             <div class="kpi-card">
+                <div class="kpi-accent"></div>
                 <div class="kpi-value">{top_lga_label}</div>
                 <div class="kpi-label">Highest-Burden LGA</div>
                 <div class="kpi-delta">{kpis['top_lga_pct']:.1f}% of total</div>
             </div>
             <div class="kpi-card">
+                <div class="kpi-accent"></div>
                 <div class="kpi-value">{top_cat_label}</div>
                 <div class="kpi-label">Top Offence Group</div>
                 <div class="kpi-delta">{fmt(kpis['top_cat_cnt'])} incidents</div>
             </div>
             <div class="kpi-card">
+                <div class="kpi-accent"></div>
                 <div class="kpi-value">{kpis['juv_pct']:.1f}%</div>
                 <div class="kpi-label">Juvenile Share</div>
                 <div class="kpi-delta">of total offences</div>
@@ -186,7 +216,7 @@ def render_lga_insight(sel_lga, stats, kpis):
     st.markdown(
         f"""
         <div class="insight-box">
-            🔎 <b>{sel_lga}</b> — <b>{fmt(stats['lga_total'])} offences</b> ({stats['lga_share']:.1f}% of scope total).
+            <b>{sel_lga}</b> — <b>{fmt(stats['lga_total'])} offences</b> ({stats['lga_share']:.1f}% of scope total).
             Dominant high-level category: <b>{stats['lga_top_cat']}</b> ({fmt(stats['lga_top_cnt'])} incidents).
             {top_lga_note}
         </div>
@@ -203,7 +233,7 @@ def render_narrative_cards(columns, kpis, filters):
         st.markdown(
             """
             <div class="narrative-card">
-                <h4>📌 What</h4>
+                <h4>What</h4>
                 <p>Crime is not evenly distributed across Queensland. A small number of LGAs account for a disproportionate share of recorded offences.</p>
             </div>
             """,
@@ -214,7 +244,7 @@ def render_narrative_cards(columns, kpis, filters):
         st.markdown(
             f"""
             <div class="narrative-card">
-                <h4>🔍 So What</h4>
+                <h4>So What</h4>
                 <p><b>{kpis['top_lga']}</b> represents {kpis['top_lga_pct']:.1f}% of all offences in scope. The dominant issue is <b>{kpis['top_cat']}</b>, suggesting targeted programs could have outsized impact.</p>
             </div>
             """,
@@ -225,7 +255,7 @@ def render_narrative_cards(columns, kpis, filters):
         st.markdown(
             f"""
             <div class="narrative-card">
-                <h4>✅ What Next</h4>
+                <h4>What Next</h4>
                 <p>A {reduction_pct}% reduction in <b>{kpis['top_lga']}</b> would save <b>{fmt(kpis['projected_saving'])}</b> incidents, bringing the total down to <b>{fmt(kpis['projected_total'])}</b>.</p>
             </div>
             """,
@@ -238,7 +268,7 @@ def render_recommendation(kpis, filters):
     st.markdown(
         f"""
         <div class="recommend-box">
-            <h3>🎯 Priority Recommendation</h3>
+            <h3>Priority Recommendation</h3>
             <p>
                 Based on {year_range[0]}-{year_range[1]} data, <b>{kpis['top_lga']}</b> should be the highest-priority
                 LGA for targeted community safety intervention in Queensland.
@@ -257,7 +287,7 @@ def render_recommendation(kpis, filters):
 
 def render_footer(scope):
     st.markdown("---")
-    with st.expander("📖 Data Dictionary"):
+    with st.expander("Data Dictionary"):
         st.markdown(
             """
             | Column | Description |
@@ -274,5 +304,5 @@ def render_footer(scope):
             **Source:** Queensland Police Service — Monthly LGA Reported Offenders data.
             """
         )
-    with st.expander("🗂️ View Filtered Summary Data"):
+    with st.expander("View Filtered Summary Data"):
         st.dataframe(scope, use_container_width=True)

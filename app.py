@@ -63,7 +63,7 @@ except ImportError:
             if st.button("Clear filters", key="clear_chart_filters_main", use_container_width=True, type="primary"):
                 clear_chart_filters()
         with col2:
-            st.info("🎯 Chart filter active - " + " | ".join(active_parts))
+            st.info("Chart filter active - " + " | ".join(active_parts))
 
 
 CHART_FILTER_DEFAULTS = {
@@ -202,7 +202,7 @@ def render_dashboard(summary_full, detail_full):
     st.markdown("---")
 
     # --- WHERE ---
-    section_header("📍 Where — Geographic Crime Distribution")
+    section_header("Where — Geographic Crime Distribution")
     fig_map = build_map(scope, filters["map_mode"], filters["top_n"])
     fig_donut = build_donut(kpis["top_cat_df"], kpis["total"])
 
@@ -244,7 +244,7 @@ def render_dashboard(summary_full, detail_full):
                 toggle_chart_filter("chart_offence_filter", offence)
 
     # --- WHAT ---
-    section_header("📈 What — Trend & Concentration")
+    section_header("What — Trend & Concentration")
     fig_trend = build_trend(scope)
     fig_topn = build_top_lgas(kpis["top_lga_df"], filters["top_n"])
 
@@ -280,7 +280,7 @@ def render_dashboard(summary_full, detail_full):
         )
 
     # --- WHO ---
-    section_header("👥 Who — Demographic Breakdown")
+    section_header("Who — Demographic Breakdown")
     fig_age = build_age_chart(scope)
     fig_sex = build_sex_chart(scope)
 
@@ -323,7 +323,7 @@ def render_dashboard(summary_full, detail_full):
     st.markdown("---")
 
     # --- DRILL-DOWN ---
-    section_header("🔍 Drill-Down — Inspect Any LGA")
+    section_header("Drill-Down — Inspect Any LGA")
 
     drill_lgas = sorted(scope["lga_name_clean"].dropna().unique().tolist())
 
@@ -368,7 +368,7 @@ def render_dashboard(summary_full, detail_full):
     st.markdown("---")
 
     # --- WHAT NEXT ---
-    section_header("🧮 What Next — Model an Intervention")
+    section_header("What Next — Model an Intervention")
     fig_wi = build_whatif(
         kpis["total"],
         kpis["projected_total"],
