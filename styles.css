@@ -8,20 +8,18 @@ html, body, [class*="css"] {
 .stApp,
 .main,
 [data-testid="stAppViewContainer"] {
-  background:
-    radial-gradient(circle at top left, var(--accent-soft), transparent 28rem),
-    var(--app-bg);
+  background: var(--app-bg);
   color: var(--app-text);
 }
 
 .block-container {
-  max-width: 1720px;
-  padding: 1.25rem 2rem 2.75rem 2rem;
+  max-width: 1680px;
+  padding: 2.1rem 1.5rem 2.5rem 1.5rem;
 }
 
 hr {
   border-color: var(--rule);
-  margin: 22px 0;
+  margin: 18px 0;
 }
 
 a {
@@ -36,24 +34,24 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 4px 0 20px 0;
+  padding: 2px 0 18px 0;
   margin-bottom: 6px;
   border-bottom: 1px solid var(--sidebar-border);
 }
 
 .sidebar-brand-mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #4338ca, #ef4444);
+  background: linear-gradient(135deg, var(--accent-strong), #334155);
   color: #ffffff;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.04em;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.22);
+  box-shadow: none;
 }
 
 .sidebar-brand-title {
@@ -71,14 +69,14 @@ a {
 
 .dashboard-header {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(360px, 0.9fr);
-  gap: 22px;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
   background: var(--surface);
   border: 1px solid var(--chart-border);
-  border-radius: 18px;
-  padding: 24px;
-  margin-bottom: 18px;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
   box-shadow: var(--panel-shadow);
   position: relative;
   overflow: hidden;
@@ -90,8 +88,8 @@ a {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 6px;
-  background: linear-gradient(180deg, #4f46e5, #ef4444);
+  width: 4px;
+  background: var(--accent-strong);
 }
 
 .dashboard-header-copy {
@@ -101,25 +99,25 @@ a {
 
 .dashboard-eyebrow {
   color: var(--accent);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 
 .dashboard-title {
   color: var(--panel-text);
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: 0;
 }
 
 .dashboard-summary {
   color: var(--muted-text);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.55;
   max-width: 860px;
   margin-top: 12px;
 }
@@ -131,7 +129,7 @@ a {
 .dashboard-header-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
   position: relative;
   z-index: 1;
 }
@@ -139,25 +137,26 @@ a {
 .meta-tile {
   background: var(--surface-alt);
   border: 1px solid var(--chart-border);
-  border-radius: 12px;
-  padding: 14px;
-  min-width: 0;
+  border-radius: 9px;
+  padding: 12px 14px;
+  min-width: 146px;
+  min-height: 74px;
 }
 
 .meta-tile span {
   display: block;
   color: var(--muted-text);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
 
 .meta-tile b {
   color: var(--panel-text);
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.25;
   overflow-wrap: anywhere;
 }
@@ -165,18 +164,18 @@ a {
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
 .kpi-card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--chart-border);
-  border-radius: 14px;
-  padding: 18px 18px 16px 18px;
+  border-radius: 10px;
+  padding: 14px 16px;
   box-shadow: var(--kpi-shadow);
-  min-height: 126px !important;
+  min-height: 96px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -188,13 +187,16 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent-strong), #ef4444);
+  bottom: 0;
+  right: auto;
+  width: 4px;
+  height: auto;
+  background: var(--accent-strong);
 }
 
 .kpi-value {
-  color: var(--accent);
-  font-size: 28px;
+  color: var(--panel-text);
+  font-size: 24px;
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: 0;
@@ -203,11 +205,11 @@ a {
 
 .kpi-label {
   color: var(--muted-text);
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10px;
+  font-weight: 750;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
-  margin-top: 9px;
+  letter-spacing: 0.08em;
+  margin-top: 8px;
 }
 
 .kpi-delta {
@@ -220,26 +222,26 @@ a {
 .delta-down { color: var(--success); }
 
 .section-header {
-  color: var(--section-accent);
-  font-size: 12px;
+  color: var(--panel-text);
+  font-size: 14px;
   font-weight: 800;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  margin: 30px 0 14px 0;
-  padding-left: 14px;
-  border-left: 4px solid var(--accent-strong);
+  letter-spacing: 0;
+  text-transform: none;
+  margin: 24px 0 12px 0;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent-strong);
 }
 
 div[data-testid="stPlotlyChart"] {
   background: var(--chart-panel);
   border: 1px solid var(--chart-border);
-  border-radius: 14px;
+  border-radius: 10px;
   box-shadow: var(--chart-shadow);
-  padding: 14px;
+  padding: 14px 16px;
 }
 
 div[data-testid="stPlotlyChart"] > div {
-  border-radius: 10px;
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -247,8 +249,9 @@ div[data-testid="stButton"] button[kind="secondary"] {
   background: var(--surface);
   border-color: var(--button-secondary-border);
   color: var(--button-secondary-text);
-  font-weight: 700;
-  min-height: 42px;
+  font-weight: 650;
+  min-height: 38px;
+  border-radius: 8px;
 }
 
 div[data-testid="stButton"] button[kind="secondary"]:hover {
@@ -258,8 +261,9 @@ div[data-testid="stButton"] button[kind="secondary"]:hover {
 
 div[data-testid="stButton"] button[kind="primary"] {
   color: #ffffff;
-  font-weight: 800;
-  min-height: 42px;
+  font-weight: 750;
+  min-height: 38px;
+  border-radius: 8px;
 }
 
 .insight-box,
@@ -267,12 +271,12 @@ div[data-testid="stButton"] button[kind="primary"] {
 .recommend-box {
   background: var(--surface);
   border: 1px solid var(--chart-border);
-  border-radius: 14px;
+  border-radius: 10px;
   box-shadow: var(--chart-shadow);
 }
 
 .insight-box {
-  border-left: 4px solid var(--accent-strong);
+  border-left: 3px solid var(--accent-strong);
   color: var(--panel-text);
   padding: 16px 20px;
   font-size: 14px;
@@ -281,8 +285,8 @@ div[data-testid="stButton"] button[kind="primary"] {
 }
 
 .narrative-card {
-  padding: 20px 22px;
-  min-height: 210px;
+  padding: 16px 18px;
+  min-height: 176px;
 }
 
 .narrative-card h4,
@@ -310,8 +314,8 @@ div[data-testid="stButton"] button[kind="primary"] {
 }
 
 .recommend-box {
-  padding: 24px 28px;
-  margin-top: 24px;
+  padding: 20px 22px;
+  margin-top: 20px;
 }
 
 .recommend-box h3 {
@@ -378,7 +382,7 @@ section[data-testid="stSidebar"] [data-baseweb="select"] {
 }
 
 section[data-testid="stSidebar"] [data-baseweb="tag"] {
-  background: #ef4444;
+  background: var(--accent-strong);
   color: #ffffff;
   border-radius: 8px;
 }

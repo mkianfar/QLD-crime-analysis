@@ -6,7 +6,7 @@ from constants import INDIGO_SCALE, OFFENCE_COLOURS
 from utils import fmt, theme_palette
 
 
-MAP_HEIGHT = 660
+MAP_HEIGHT = 600
 
 
 def enable_point_selection(fig):
@@ -21,9 +21,9 @@ def base_layout(height=380, xtitle="", ytitle=""):
         paper_bgcolor=palette["chart_panel"],
         plot_bgcolor=palette["chart_panel"],
         font=dict(color=palette["chart_text"], size=12, family="Inter"),
-        title_font=dict(color=palette["chart_text"], size=14, family="Inter"),
+        title_font=dict(color=palette["chart_text"], size=13, family="Inter"),
         legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=palette["chart_muted"], size=11)),
-        margin=dict(t=50, b=30, l=10, r=10),
+        margin=dict(t=42, b=28, l=10, r=10),
         xaxis_title=xtitle,
         yaxis_title=ytitle,
     )
@@ -76,9 +76,9 @@ def build_map(scope, map_mode, top_n):
         paper_bgcolor=palette["chart_panel"],
         plot_bgcolor=palette["chart_panel"],
         font=dict(color=palette["chart_text"], size=12, family="Inter"),
-        title_font=dict(color=palette["chart_text"], size=14),
+        title_font=dict(color=palette["chart_text"], size=13),
         coloraxis_colorbar=dict(title="Count", tickfont=dict(color=palette["chart_text"])),
-        margin=dict(t=50, b=10, l=10, r=10),
+        margin=dict(t=42, b=8, l=8, r=8),
     )
     return enable_point_selection(fig)
 
@@ -101,11 +101,11 @@ def build_donut(top_cat_df, total):
     )
     fig.update_layout(
         title="Offence mix across selected period",
-        height=500,
+        height=460,
         paper_bgcolor=palette["chart_panel"],
         plot_bgcolor=palette["chart_panel"],
         font=dict(color=palette["chart_text"], size=12, family="Inter"),
-        title_font=dict(color=palette["chart_text"], size=14),
+        title_font=dict(color=palette["chart_text"], size=13),
         legend=dict(
             orientation="v",
             x=1.02,
@@ -121,7 +121,7 @@ def build_donut(top_cat_df, total):
                 showarrow=False,
             )
         ],
-        margin=dict(t=50, b=10, l=10, r=150),
+        margin=dict(t=42, b=8, l=8, r=136),
     )
     return enable_point_selection(fig)
 
@@ -138,7 +138,7 @@ def build_trend(scope):
         title="Annual offence trend by category",
     )
     fig.update_traces(hovertemplate="<b>%{fullData.name}</b><br>%{x}: <b>%{y:,}</b><extra></extra>")
-    fig.update_layout(**base_layout(390, "Year", "Offence Count"))
+    fig.update_layout(**base_layout(360, "Year", "Offence Count"))
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     return enable_point_selection(fig)
@@ -157,7 +157,7 @@ def build_top_lgas(top_lga_df, top_n):
         color_continuous_scale=INDIGO_SCALE,
     )
     fig.update_traces(hovertemplate="<b>%{y}</b><br>Offences: <b>%{x:,}</b><extra></extra>")
-    layout = base_layout(390, "Offence Count", "")
+    layout = base_layout(360, "Offence Count", "")
     layout["coloraxis_showscale"] = False
     fig.update_layout(**layout)
     fig.update_xaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
@@ -173,7 +173,7 @@ def build_age_chart(scope):
         y="offence_count",
         color="age_group",
         custom_data=["year", "age_group"],
-        color_discrete_map={"Adult": "#818cf8", "Juvenile": "#f472b6"},
+        color_discrete_map={"Adult": "#0d9488", "Juvenile": "#f59e0b"},
         markers=True,
         title="Adult vs Juvenile offenders over time",
     )
@@ -182,7 +182,7 @@ def build_age_chart(scope):
         marker=dict(size=7),
         hovertemplate="<b>%{fullData.name}</b> — %{x}: <b>%{y:,}</b><extra></extra>",
     )
-    fig.update_layout(**base_layout(340, "Year", "Offence Count"))
+    fig.update_layout(**base_layout(320, "Year", "Offence Count"))
     fig.update_xaxes(showgrid=False)
     fig.update_yaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     return enable_point_selection(fig)
@@ -198,11 +198,11 @@ def build_sex_chart(scope):
         orientation="h",
         barmode="group",
         custom_data=["offence_group", "sex"],
-        color_discrete_map={"Female": "#f472b6", "Male": "#60a5fa", "Not Stated": "#94a3b8"},
+        color_discrete_map={"Female": "#f43f5e", "Male": "#0ea5e9", "Not Stated": "#94a3b8"},
         title="Offences by sex and category",
     )
     fig.update_traces(hovertemplate="<b>%{y}</b><br>%{fullData.name}: <b>%{x:,}</b><extra></extra>")
-    fig.update_layout(**base_layout(340, "Offence Count", ""))
+    fig.update_layout(**base_layout(320, "Offence Count", ""))
     fig.update_xaxes(showgrid=True, gridcolor=theme_palette()["chart_grid"])
     fig.update_yaxes(showgrid=False)
     return enable_point_selection(fig)
@@ -258,7 +258,7 @@ def build_whatif(total, projected_total, reduction_pct, top_lga):
         {
             "Scenario": ["Current Total", f"After {reduction_pct}% reduction in {top_lga.split()[0]}"],
             "Offences": [total, projected_total],
-            "Colour": ["#6366f1", "#4ade80"],
+            "Colour": ["#0d9488", "#22c55e"],
         }
     )
 

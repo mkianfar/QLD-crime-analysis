@@ -139,8 +139,8 @@ def render_hero(kpis, filters):
         f"""
         <div class="dashboard-header">
             <div class="dashboard-header-copy">
-                <div class="dashboard-eyebrow">Queensland Community Safety</div>
-                <div class="dashboard-title">Crime intelligence dashboard</div>
+                <div class="dashboard-eyebrow">Queensland community safety</div>
+                <div class="dashboard-title">Queensland Crime Intelligence</div>
                 <div class="dashboard-summary">
                     <b>{fmt(kpis['total'])}</b> recorded offences across <b>{kpis['n_lgas']}</b> LGAs.
                     <b>{kpis['top_lga']}</b> is the current highest-burden LGA at <b>{kpis['top_lga_pct']:.1f}%</b> of scope.
