@@ -17,7 +17,7 @@ As a community safety planner, I want to identify which LGAs have the highest an
 
 ## Narrative Logic
 
-This dashboard follows a **What -> So What -> What Next** structure:
+This dashboard follows a **What → So What → What Next** structure:
 
 - **What:** Show where offence burden is concentrated across Queensland LGAs
 - **So What:** Reveal which offence categories and demographic patterns are driving that burden
@@ -59,17 +59,35 @@ _Add dashboard screenshots here once final layouts are exported._
 
 | Item | Detail |
 |---|---|
-| Source | Queensland Police Service — LGA Reported Offenders (Monthly) |
-| Period | 2010-2025 (filtered to <= 2025 in `constants.py`) |
+| Primary source | Queensland Police Service — LGA Reported Offenders (Monthly) |
+| Period | 2010–2025 (filtered to ≤ 2025 in `constants.py`) |
 | Spatial coverage | 77 Queensland LGAs |
-| Unit of analysis | LGA x offence group x year x month x age group x sex |
+| Unit of analysis | LGA × offence group × year × month × age group × sex |
 | Key offence groups | Offences Against the Person, Property, Drug, Traffic, Domestic Violence Order Breaches, Good Order |
-| Enrichment | Demographic splits by age group and sex |
+| Enrichment | ABS geographic reference data used to map LGA names to latitude/longitude for spatial visualisation, plus demographic splits by age group and sex |
 
-The dashboard expects these files to be in the same folder as `app.py`:
+In addition to the Queensland Police Service offence dataset, the project uses **ABS geographic reference data** to map LGA names to latitude and longitude coordinates. This enrichment enables the dashboard’s spatial visualisation and geographic prioritisation layer.
+
+The dashboard currently expects these files to be stored in the same directory as `app.py`:
 
 - `qld_summary_long.csv`
 - `qld_detail.csv`
+
+---
+
+## Data Dictionary
+
+| Variable | Type | Description | Provenance |
+|---|---|---|---|
+| `lga_name` | Categorical | Queensland Local Government Area name | QPS / ABS mapping |
+| `year` | Temporal | Reporting year | QPS |
+| `month` | Temporal | Reporting month | QPS |
+| `offence_group` | Categorical | High-level offence category | QPS |
+| `age_group` | Categorical | Demographic age grouping | QPS |
+| `sex` | Categorical | Sex classification | QPS |
+| `count` | Numeric | Number of reported offenders / incidents | QPS |
+| `latitude` | Numeric | Latitude used for map placement | ABS reference data |
+| `longitude` | Numeric | Longitude used for map placement | ABS reference data |
 
 ---
 
@@ -85,69 +103,5 @@ Streamlit/
 ├── utils.py             # Shared helper functions
 ├── styles.css           # Custom CSS (dark theme)
 ├── requirements.txt     # Streamlit Cloud and local Python dependencies
-├── qld_summary_long.csv # Summary: LGA x offence group x year x demographics
+├── qld_summary_long.csv # Summary: LGA × offence group × year × demographics
 └── qld_detail.csv       # Detailed offence-type counts per LGA
-```
-
----
-
-## How to Run Locally
-
-From this folder, run:
-
-```bash
-streamlit run app.py
-```
-
-If you are using the Anaconda installation on this machine, this also works:
-
-```bash
-/opt/anaconda3/bin/streamlit run app.py
-```
-
-Then open the local URL shown by Streamlit, usually:
-
-```text
-http://localhost:8501
-```
-
----
-
-## Dependencies
-
-The app uses:
-
-- Streamlit
-- pandas
-- Plotly
-
-Install them if needed:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Deployment
-
-The repository includes `requirements.txt`, so Streamlit Cloud can install the required packages automatically. When deploying, use:
-
-- **Repository:** `mkianfar/QLD-crime-analysis`
-- **Branch:** `main`
-- **Main file path:** `app.py`
-
----
-
-## Architecture
-
-The app has been split so each file has a clear responsibility:
-
-- `app.py` coordinates the dashboard flow.
-- `data.py` owns data preparation and calculations.
-- `charts.py` owns all Plotly figure creation.
-- `components.py` owns Streamlit UI sections and reusable HTML blocks.
-- `constants.py` stores shared settings, file paths, colour palettes, and offence ordering.
-- `styles.css` keeps visual styling out of Python.
-
-This keeps the main app easier to read and makes future edits safer, especially when changing chart logic, styling, or data processing separately.
