@@ -59,14 +59,14 @@ _Add dashboard screenshots here once final layouts are exported._
 
 | Item | Detail |
 |---|---|
-| Primary source | Queensland Police Service — LGA Reported Offenders (Monthly) |
-| Period | 2010–2025 (filtered to ≤ 2025 in `constants.py`) |
+| Primary source | Queensland Police Service - LGA Reported Offenders (Monthly) |
+| Period | 2010–2025, filtered to ≤ 2025 in `constants.py` |
 | Spatial coverage | 77 Queensland LGAs |
 | Unit of analysis | LGA × offence group × year × month × age group × sex |
 | Key offence groups | Offences Against the Person, Property, Drug, Traffic, Domestic Violence Order Breaches, Good Order |
 | Enrichment | ABS geographic reference data used to map LGA names to latitude/longitude for spatial visualisation, plus demographic splits by age group and sex |
 
-In addition to the Queensland Police Service offence dataset, the project uses **ABS geographic reference data** to map LGA names to latitude and longitude coordinates. This enrichment enables the dashboard’s spatial visualisation and geographic prioritisation layer.
+In addition to the Queensland Police Service offence dataset, the project uses **ABS geographic reference data** to map LGA names to latitude and longitude coordinates. This enrichment enables the dashboard’s spatial visualisation and map-based prioritisation layer.
 
 The dashboard currently expects these files to be stored in the same directory as `app.py`:
 
@@ -95,13 +95,121 @@ The dashboard currently expects these files to be stored in the same directory a
 
 ```bash
 Streamlit/
-├── app.py               # Page flow and section orchestration
-├── data.py              # Loading, cleaning, filtering, KPI calculations
-├── charts.py            # Plotly figure builders
-├── components.py        # Sidebar, KPI cards, hero banner, reusable UI blocks
-├── constants.py         # File paths, labels, palette, global settings
-├── utils.py             # Shared helper functions
-├── styles.css           # Custom CSS (dark theme)
-├── requirements.txt     # Streamlit Cloud and local Python dependencies
-├── qld_summary_long.csv # Summary: LGA × offence group × year × demographics
-└── qld_detail.csv       # Detailed offence-type counts per LGA
+├── app.py
+├── data.py
+├── charts.py
+├── components.py
+├── constants.py
+├── utils.py
+├── styles.css
+├── requirements.txt
+├── qld_summary_long.csv
+└── qld_detail.csv
+```
+
+---
+
+## How to Run Locally
+
+From this folder, run:
+
+```bash
+streamlit run app.py
+```
+
+If you are using the Anaconda installation on this machine, this also works:
+
+```bash
+/opt/anaconda3/bin/streamlit run app.py
+```
+
+Then open the local URL shown by Streamlit, usually:
+
+```text
+http://localhost:8501
+```
+
+---
+
+## Dependencies
+
+The app uses:
+
+- Streamlit
+- pandas
+- Plotly
+
+Install them with:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Deployment
+
+The repository includes `requirements.txt`, so Streamlit Cloud can install the required packages automatically.
+
+Use the following deployment settings:
+
+- **Repository:** `mkianfar/QLD-crime-analysis`
+- **Branch:** `main`
+- **Main file path:** `app.py`
+
+---
+
+## Live App
+
+_Add published Streamlit Cloud link here._
+
+---
+
+## Architecture
+
+The app has been split so each file has a clear responsibility:
+
+- `app.py` coordinates the dashboard flow
+- `data.py` handles data preparation, filtering, and KPI calculations
+- `charts.py` contains all Plotly figure creation
+- `components.py` contains Streamlit UI sections and reusable HTML blocks
+- `constants.py` stores shared settings, file paths, colour palettes, and offence ordering
+- `utils.py` provides shared helper functions
+- `styles.css` keeps visual styling out of Python
+
+This structure keeps the main app easier to read and makes future edits safer, especially when changing chart logic, styling, or data processing separately.
+
+---
+
+## Design Rationale
+
+The dashboard was designed as a human-centred decision-support tool, not a passive reporting interface. The stakeholder requires rapid identification of high-burden LGAs, a clear understanding of dominant offence drivers, and enough demographic context to support targeted intervention design.
+
+The visual structure therefore prioritises:
+
+- clarity over clutter
+- place-based prioritisation
+- direct comparison across LGAs
+- action-oriented interpretation
+
+The dashboard moves from statewide burden to offence composition, then to demographic patterning and local drill-down, helping the stakeholder move from awareness to intervention planning.
+
+---
+
+## Intended Use
+
+This dashboard is intended to support:
+
+- identification of priority LGAs for community safety intervention
+- comparison of offence burden across places
+- interpretation of dominant offence categories
+- demographic tailoring of intervention strategy
+- scenario testing for burden reduction
+
+It is not intended to replace detailed operational intelligence systems. Instead, it provides a stakeholder-facing narrative layer for prioritisation and planning.
+
+---
+
+## Credits
+
+Developed as part of **36104 Data Visualisation and Narratives** at the University of Technology Sydney.
