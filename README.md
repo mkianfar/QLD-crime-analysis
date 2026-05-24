@@ -50,8 +50,9 @@ This dashboard follows a **What → So What → What Next** structure:
 ---
 
 ## Dashboard Preview
+![Main dashboard view](images/Group26 Dashboard Screenshot.png)
 https://qld-crime-analysis-dvn-assignemt3.streamlit.app/
-_Add dashboard screenshots here once final layouts are exported._
+
 
 ---
 
