@@ -6,7 +6,8 @@ from constants import INDIGO_SCALE, OFFENCE_COLOURS
 from utils import fmt, theme_palette
 
 
-MAP_HEIGHT = 600
+MAP_HEIGHT = 560
+DONUT_HEIGHT = 560
 
 
 def enable_point_selection(fig):
@@ -101,7 +102,7 @@ def build_donut(top_cat_df, total):
     )
     fig.update_layout(
         title="Offence mix across selected period",
-        height=460,
+        height=DONUT_HEIGHT,
         paper_bgcolor=palette["chart_panel"],
         plot_bgcolor=palette["chart_panel"],
         font=dict(color=palette["chart_text"], size=12, family="Inter"),

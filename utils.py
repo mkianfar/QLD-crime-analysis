@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 THEME_PALETTES = {
@@ -98,3 +99,41 @@ def fmt(x):
 def load_css(path):
     css = path.read_text(encoding="utf-8")
     st.markdown(f"<style>{theme_css_variables()}\n{css}</style>", unsafe_allow_html=True)
+
+
+def sync_theme_switches():
+    components.html(
+        """
+        <script>
+        (() => {
+          try {
+            const key = "qld-dashboard-theme-class";
+            const parentWindow = window.parent;
+            const parentDocument = parentWindow.document;
+            const app = parentDocument.querySelector(".stApp");
+            if (!app) return;
+
+            const currentClass = app.className || "";
+            parentWindow.sessionStorage.setItem(key, currentClass);
+
+            let pendingReload = false;
+            const observer = new parentWindow.MutationObserver(() => {
+              const nextClass = app.className || "";
+              const previousClass = parentWindow.sessionStorage.getItem(key);
+              if (!pendingReload && nextClass && nextClass !== previousClass) {
+                pendingReload = true;
+                parentWindow.sessionStorage.setItem(key, nextClass);
+                parentWindow.setTimeout(() => parentWindow.location.reload(), 150);
+              }
+            });
+
+            observer.observe(app, { attributes: true, attributeFilter: ["class"] });
+          } catch (error) {
+            // Theme syncing is progressive enhancement; the dashboard still works without it.
+          }
+        })();
+        </script>
+        """,
+        height=0,
+        width=0,
+    )

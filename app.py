@@ -30,7 +30,7 @@ from data import (
     get_lga_stats,
     load_data,
 )
-from utils import load_css
+from utils import load_css, sync_theme_switches
 
 try:
     from components import render_active_filter_banner
@@ -83,6 +83,7 @@ def configure_page():
         initial_sidebar_state="expanded",
     )
     load_css(STYLES_CSS)
+    sync_theme_switches()
 
 
 def init_session_state():
