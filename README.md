@@ -163,7 +163,7 @@ Use the following deployment settings:
 
 ## Live App
 
-_Add published Streamlit Cloud link here._
+https://qld-crime-analysis-dvn-assignemt3.streamlit.app/
 
 ---
 
