@@ -278,7 +278,7 @@ def render_recommendation(kpis, filters):
             <span class="tag tag-purple">QLD Government</span>
             <span class="tag tag-red">Community Safety</span>
             <span class="tag tag-green">Data-Driven Policy</span>
-            <span class="tag tag-purple">Source: QLD Police Service</span>
+            <span class="tag tag-purple">Sources: QLD Police Service + ABS</span>
         </div>
         """,
         unsafe_allow_html=True,
@@ -299,9 +299,10 @@ def render_footer(scope):
             | `sex` | Female / Male / Not Stated |
             | `offence_group` | High-level offence category |
             | `offence_count` | Recorded offences |
-            | `lat` / `lon` | LGA centroid coordinates |
+            | `lat` / `lon` | ABS LGA centroid coordinates matched to QLD Police LGA names |
 
-            **Source:** Queensland Police Service — Monthly LGA Reported Offenders data.
+            **Sources:** Queensland Police Service — Monthly LGA Reported Offenders data; Australian Bureau of Statistics (ABS)
+            geographic reference data for LGA latitude/longitude coordinates, matched by LGA name when creating `qld_summary_long.csv`.
             """
         )
     with st.expander("View Filtered Summary Data"):
