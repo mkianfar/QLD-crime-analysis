@@ -221,28 +221,28 @@ def render_dashboard(summary_full, detail_full):
             lambda point: {"chart_lga_filter": custom_value(point, 0) or point.get("hovertext")},
         )
     with c2:
-    donut_event = st.plotly_chart(
-        fig_donut,
-        use_container_width=True,
-        on_select="rerun",
-        selection_mode="points",
-        key=chart_key("donut_chart"),
-    )
-    handle_chart_selection(
-        donut_event,
-        lambda point: {"chart_offence_filter": custom_value(point, 0) or point.get("label")},
-    )
-
-# Clickable offence filter buttons below BOTH charts
-st.markdown("**Filter by offence group:**")
-offence_options = kpis["top_cat_df"]["offence_group"].tolist()
-
-cols = st.columns(4)
-for i, offence in enumerate(offence_options):
-    is_active = st.session_state.chart_offence_filter == offence
-    label = f"✓ {offence}" if is_active else offence
-    if cols[i % 4].button(label, key=f"btn_{offence}", use_container_width=True):
-        toggle_chart_filter("chart_offence_filter", offence)
+        donut_event = st.plotly_chart(
+            fig_donut,
+            use_container_width=True,
+            on_select="rerun",
+            selection_mode="points",
+            key=chart_key("donut_chart"),
+        )
+        handle_chart_selection(
+            donut_event,
+            lambda point: {"chart_offence_filter": custom_value(point, 0) or point.get("label")},
+        )
+    
+    # Clickable offence filter buttons below BOTH charts
+    st.markdown("**Filter by offence group:**")
+    offence_options = kpis["top_cat_df"]["offence_group"].tolist()
+    
+    cols = st.columns(4)
+    for i, offence in enumerate(offence_options):
+        is_active = st.session_state.chart_offence_filter == offence
+        label = f"✓ {offence}" if is_active else offence
+        if cols[i % 4].button(label, key=f"btn_{offence}", use_container_width=True):
+            toggle_chart_filter("chart_offence_filter", offence)
 
     # --- WHAT ---
     section_header("What — Trend & Concentration")
