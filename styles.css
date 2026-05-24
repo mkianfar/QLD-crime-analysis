@@ -233,15 +233,17 @@ a {
 }
 
 div[data-testid="stPlotlyChart"] {
+  box-sizing: border-box;
   background: var(--chart-panel);
   border: 1px solid var(--chart-border);
   border-radius: 10px;
   box-shadow: var(--chart-shadow);
-  padding: 14px 16px;
+  padding: 0;
+  overflow: hidden;
 }
 
 div[data-testid="stPlotlyChart"] > div {
-  border-radius: 6px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
