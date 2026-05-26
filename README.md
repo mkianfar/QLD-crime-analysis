@@ -214,4 +214,25 @@ It is not intended to replace detailed operational intelligence systems. Instead
 
 ## Credits
 
-Developed as part of **36104 Data Visualisation and Narratives** at the University of Technology Sydney.
+Developed by **Group 26** for **36104 Data Visualisation and Narratives** at the **University of Technology Sydney**.
+
+**Team members:**
+- Anirban Roy Chowdhury
+- Aryaman Malik
+- Delisiya Martin Devaraj
+- Jefferson Rozario
+- Milad Kianfar
+- Sidharth Joly
+- Vinoth Kumar Rajagopalan
+
+**Data sources:**
+- Queensland Police Service — LGA Reported Offenders
+- ABS geographic reference data for LGA latitude/longitude enrichment
+
+**Tools used:**
+- Streamlit
+- Plotly
+- pandas
+- GitHub
+- SharePoint / Teams
+- Miro
